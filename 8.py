@@ -14,17 +14,17 @@ for i in range(0, num_layers):
   end_idx = start_idx + 25 * 6
   layers.append(pixels[start_idx : end_idx])
 
-min_num_zeros = float("inf")
-min_layer_idx = -1
-for i in range(0, len(layers)):
-  num_zeros = sum([1 for x in layers[i] if x == 0]) 
-  if num_zeros <= min_num_zeros:
-    min_num_zeros = num_zeros
-    min_layer_idx = i
+image = []
+for pixel_idx in range(0, 25 * 6):
+  for layer_idx in range(0, num_layers):
+    color = layers[layer_idx][pixel_idx]
+    if color == 2:
+      continue
+    image.append(color)
+    break
 
-num_ones = sum([1 for x in layers[min_layer_idx] if x == 1])
-num_twos = sum([1 for x in layers[min_layer_idx] if x == 2])
-
-value = num_ones * num_twos
-
-print(value)
+for i in range(0, 6):
+  for j in range(0, 25):
+    color = image[i * 25 + j]
+    print("X" if color == 1 else " ", end="")
+  print()
