@@ -127,7 +127,7 @@ def calculate(state):
       print(f"last op code was {arr[idx]}")
       return (True, None)
 
-    print(f"{state.amplifier_idx} executed [{OPCODE_MAPPING[opcode]} - {opcode}] at {idx}, moving to {state.idx}")
+    # print(f"{state.amplifier_idx} executed [{OPCODE_MAPPING[opcode]} - {opcode}] at {idx}, moving to {state.idx}")
 
     if finished:
       break
@@ -158,7 +158,7 @@ def meta_calculate(phase_settings):
 
 breakpoint()
 state = AmplifierState(0)
-state.input_array.append(1)
+state.input_array.append(2)
 calculate(state)
 
 print(state.output_array)
