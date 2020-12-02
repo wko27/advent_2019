@@ -19,16 +19,20 @@ def get_direction(direction):
     return (-1, 0)
 
 def path_to_coords(path):
-  coords = set()
+  coords = dict()
   curX = 0
   curY = 0
+  step_count = 1
   for direction in path:
     (deltaX, deltaY) = get_direction(direction[0])
     num_steps = int(direction[1:])
     for i in range(0, num_steps):
       curX += deltaX
       curY += deltaY
-      coords.add((curX, curY))
+      coord = (curX, curY)
+      if coord not in coords:
+        coords[coord] = step_count
+      step_count += 1
   return coords
 
 (path1, path2) = load_input()
@@ -36,9 +40,9 @@ def path_to_coords(path):
 coords1 = path_to_coords(path1)
 coords2 = path_to_coords(path2)
 
-crossed = coords1.intersection(coords2)
+crossed = set(coords1.keys()).intersection(set(coords2.keys()))
 
-min_dist = min([abs(x) + abs(y) for (x, y) in crossed])
+min_dist = min([coords1[coord] + coords2[coord] for coord in crossed])
 print(min_dist)
 # breakpoint()
 
