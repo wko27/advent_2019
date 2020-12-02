@@ -5,30 +5,39 @@ def load_input():
     line = f.readline()
     return [int(x) for x in line.split(",")]
 
-arr = load_input()
+original_arr = load_input()
 
-arr[1] = 12
-arr[2] = 2
+def calculate(noun, verb):
+  arr = list(original_arr)
+  arr[1] = noun
+  arr[2] = verb
 
-counter = 0
-idx = 0
-while True:
-  opcode = arr[idx]
-  first = arr[arr[idx + 1]]
-  second = arr[arr[idx + 2]]
-  store = arr[idx + 3]
+  counter = 0
+  idx = 0
+  while True:
+    opcode = arr[idx]
+    first = arr[arr[idx + 1]]
+    second = arr[arr[idx + 2]]
+    store = arr[idx + 3]
 
-  if opcode == 1:
-    arr[store] = first + second
-  elif opcode == 2:
-    arr[store] = first * second
-  else:
-    print(f"last op code was {arr[idx]}")
-    break
-  idx += 4
+    if opcode == 1:
+      arr[store] = first + second
+    elif opcode == 2:
+      arr[store] = first * second
+    else:
+      print(f"last op code was {arr[idx]}")
+      break
+    idx += 4
 
+  return arr[0]
 
-  counter += 1
+def find():
+  for i in range(0, 100):
+    for j in range(0, 100):
+      if calculate(i, j) == 19690720:
+        print("noun is " + str(i))
+        print("verb is " + str(j))
+        return (i, j)
 
-print(arr[0])
-breakpoint()
+(noun, verb) = find()
+print(100 * noun + verb)
