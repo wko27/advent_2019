@@ -8,9 +8,9 @@ lines = load_input()
 
 def parse(line):
   idx = line.index(")")
-  first = line[:idx]
-  second = line[idx + 1:].strip()
-  return (first, second)
+  parent = line[:idx]
+  child = line[idx + 1:].strip()
+  return (parent, child)
 
 to_parent = dict()
 nodes = set()
@@ -21,14 +21,29 @@ for line in lines:
   nodes.add(pair[0])
   nodes.add(pair[1])
 
-total_depth = 0
-for node in nodes:
-  while True:
-    if node not in to_parent:
-      break
-    node = to_parent[node]
-    total_depth += 1
+def get_ancestors(node, accumulator):
+  if node not in to_parent:
+    return []
+  parent = to_parent[node]
+  accumulator.append(parent)
+  get_ancestors(parent, accumulator)
 
-print(total_depth)
+you_ancestors = []
+get_ancestors("YOU", you_ancestors)
 
+san_ancestors = []
+get_ancestors("SAN", san_ancestors)
 
+first_common = None
+for i in range(0, len(you_ancestors)):
+  if you_ancestors[i] in san_ancestors:
+    first_common = you_ancestors[i]
+    break
+
+if first_common is None:
+  raise AssertionError("boo, could not find a path!")
+
+first_common_ancestors = []
+get_ancestors(first_common, first_common_ancestors)
+
+print(len(you_ancestors) + len(san_ancestors) - 2 * len(first_common_ancestors) - 2)
